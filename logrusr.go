@@ -15,16 +15,7 @@ type logrAdapter struct {
 
 var _ logr.Logger = &logrAdapter{}
 
-type Option func(logger *logrus.Logger) error
-
-func New(options ...Option) (logr.Logger, error) {
-	logger := logrus.New()
-	for _, option := range options {
-		if err := option(logger); err != nil {
-			return nil, errors.Wrap(err, "failed to apply option to logrus logger")
-		}
-	}
-
+func New(logger *logrus.Logger) (logr.Logger, error) {
 	return &logrAdapter{
 		entry:  logrus.NewEntry(logger),
 		logger: logger,
