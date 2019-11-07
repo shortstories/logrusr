@@ -16,6 +16,10 @@ type logrAdapter struct {
 var _ logr.Logger = &logrAdapter{}
 
 func New(logger *logrus.Logger) (logr.Logger, error) {
+	if logger == nil {
+		return nil, errors.New("logrus logger must not be nil")
+	}
+
 	return &logrAdapter{
 		entry:  logrus.NewEntry(logger),
 		logger: logger,
